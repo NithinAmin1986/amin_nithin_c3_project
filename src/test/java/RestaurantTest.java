@@ -24,10 +24,10 @@ class RestaurantTest {
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
         restaurant = restaurantService.addRestaurant("Amelie's cafe","Chennai",openingTime,closingTime);
-         LocalTime currentTestTime = LocalTime.parse("10:50:00");
+         LocalTime currentTestTime = LocalTime.parse("12:50:00");
          Restaurant mocRestaurant = Mockito.spy(restaurant);
          Mockito.when(mocRestaurant.getCurrentTime()).thenReturn(currentTestTime);
-         assertEquals(true, restaurant.isRestaurantOpen());
+         assertEquals(true, mocRestaurant.isRestaurantOpen());
     }
 
     @Test
@@ -47,8 +47,6 @@ class RestaurantTest {
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>MENU<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
     public void adding_item_to_menu_should_increase_menu_size_by_1(){
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
@@ -59,8 +57,7 @@ class RestaurantTest {
     }
     @Test
     public void removing_item_from_menu_should_decrease_menu_size_by_1() throws itemNotFoundException {
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
+
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
@@ -71,8 +68,6 @@ class RestaurantTest {
     }
     @Test
     public void removing_item_that_does_not_exist_should_throw_exception() {
-        LocalTime openingTime = LocalTime.parse("10:30:00");
-        LocalTime closingTime = LocalTime.parse("22:00:00");
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
@@ -80,5 +75,4 @@ class RestaurantTest {
         assertThrows(itemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
     }
-    //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
