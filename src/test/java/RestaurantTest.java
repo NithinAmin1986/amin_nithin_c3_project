@@ -75,4 +75,22 @@ class RestaurantTest {
         assertThrows(itemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
     }
+    //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    @Test
+    public void item_names_passed_should_be_part_of_restaurant_menu(){
+         String itemName = "Sweet corn soup, Vegetable lasagne";
+         assertTrue(false);
+
+    }
+
+    @Test
+    public void any_one_of_item_names_passed_do_not_exist_in_restaurant_menu_throw_exception(){
+        String itemName = "Sweet corn soup, Vegetable lasagne";
+        assertTrue(false);
+    }
+
+    @Test
+    public void item_names_total_value_should_be_same_as_sum_of_restaurant_menu_item_value(){
+       assertTrue(false);
+    }
 }
