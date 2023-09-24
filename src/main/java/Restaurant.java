@@ -1,4 +1,3 @@
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,24 +27,34 @@ public class Restaurant {
         return this.menu;
     }
 
-    private Item findItemByName(String itemName){
+    private Item findItemByName(String itemName) throws ItemNotFoundException {
         for(Item item: menu) {
             if(item.getName().equals(itemName))
                 return item;
         }
-        return null;
+        throw new ItemNotFoundException("We are not able to deliver  "+itemName+" at the moment!" );
     }
 
     public void addToMenu(String name, int price) {
         Item newItem = new Item(name,price);
         menu.add(newItem);
     }
+
+    public int getOrderValue(String items) throws ItemNotFoundException {
+        int orderValue = 0;
+        String[] itemNameArray = items.trim().split("[,]", 0);
+        for(String itemName :itemNameArray){
+            Item menuItem = this.findItemByName(itemName);
+            orderValue = orderValue + menuItem.getPrice();
+        }
+        return orderValue;
+    }
     
-    public void removeFromMenu(String itemName) throws itemNotFoundException {
+    public void removeFromMenu(String itemName) throws ItemNotFoundException {
 
         Item itemToBeRemoved = findItemByName(itemName);
         if (itemToBeRemoved == null)
-            throw new itemNotFoundException(itemName);
+            throw new ItemNotFoundException(itemName);
 
         menu.remove(itemToBeRemoved);
     }

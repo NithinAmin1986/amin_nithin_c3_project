@@ -5,7 +5,6 @@ import org.mockito.Mockito;
 import java.time.LocalTime;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
@@ -56,7 +55,7 @@ class RestaurantTest {
         assertEquals(initialMenuSize+1,restaurant.getMenu().size());
     }
     @Test
-    public void removing_item_from_menu_should_decrease_menu_size_by_1() throws itemNotFoundException {
+    public void removing_item_from_menu_should_decrease_menu_size_by_1() throws ItemNotFoundException {
 
         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
         restaurant.addToMenu("Sweet corn soup",119);
@@ -72,25 +71,39 @@ class RestaurantTest {
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
 
-        assertThrows(itemNotFoundException.class,
+        assertThrows(ItemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     @Test
-    public void item_names_passed_should_be_part_of_restaurant_menu(){
-         String itemName = "Sweet corn soup, Vegetable lasagne";
-         assertTrue(false);
-
+    public void item_names_passed_should_be_part_of_restaurant_menu() throws ItemNotFoundException {
+         restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+         restaurant.addToMenu("Sweet corn soup",119);
+         restaurant.addToMenu("Vegetable lasagne", 269);
+         String itemNames = "Sweet corn soup,Vegetable lasagne";
+         int orderValue = restaurant.getOrderValue(itemNames);
+         assertTrue(orderValue >=0);
     }
 
     @Test
     public void any_one_of_item_names_passed_do_not_exist_in_restaurant_menu_throw_exception(){
-        String itemName = "Sweet corn soup, Vegetable lasagne";
-        assertTrue(false);
+        restaurant =new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+        restaurant.addToMenu("Sweet corn soup",119);
+        restaurant.addToMenu("Vegetable lasagne", 269);
+        String itemNames = "Sweet corn soup,Vegetable lasagne,unknown";
+
+        assertThrows(ItemNotFoundException.class, ()->{
+            restaurant.getOrderValue(itemNames);
+        });
     }
 
     @Test
-    public void item_names_total_value_should_be_same_as_sum_of_restaurant_menu_item_value(){
-       assertTrue(false);
+    public void item_names_total_value_should_be_same_as_sum_of_restaurant_menu_item_value() throws ItemNotFoundException {
+        restaurant = new Restaurant("Amelie's cafe","Chennai",openingTime,closingTime);
+        restaurant.addToMenu("Sweet corn soup",119);
+        restaurant.addToMenu("Vegetable lasagne", 269);
+        String itemNames = "Sweet corn soup,Vegetable lasagne";
+        int orderValue = restaurant.getOrderValue(itemNames);
+        assertTrue(orderValue == 388);
     }
 }
